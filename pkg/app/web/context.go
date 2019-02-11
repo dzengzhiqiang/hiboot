@@ -16,6 +16,8 @@ package web
 
 import (
 	"github.com/kataras/iris"
+	"hidevops.io/hiboot/pkg/log"
+	"hidevops.io/hiboot/pkg/utils/gotest"
 	"sync"
 
 	ctx "github.com/kataras/iris/context"
@@ -46,11 +48,13 @@ var contextPool = sync.Pool{New: func() interface{} {
 func acquire(original iris.Context) *Context {
 	c := contextPool.Get().(*Context)
 	c.Context = original // set the context to the original one in order to have access to iris's implementation.
+	log.Debugf("acquire() GID: %v ctx: %p - %p", gotest.GetGID(), c, c.Context)
 	return c
 }
 
 func release(c *Context) {
 	contextPool.Put(c)
+	log.Debugf("release() GID: %v ctx: %p - %p", gotest.GetGID(), c, c.Context)
 }
 
 // Handler will convert our handler of func(*Context) to an iris Handler,

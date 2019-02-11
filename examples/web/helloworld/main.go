@@ -39,12 +39,18 @@ func (c *Controller) Get(ctx context.Context) string {
 	return "Hello world"
 }
 
+func (c *Controller) GetByName(name string, ctx context.Context) (response map[string]interface{}) {
+	// response
+	log.Debugf("Controller.GetHello() name: %v GID: %v ctx: %p - %p", name, gotest.GetGID(), ctx, ctx.(*web.Context).Context)
+	response = make(map[string]interface{})
+	response["message"] = "Hello world!"
+	return
+}
 
 // Get GET /
 func (c *Controller) GetById(id int, ctx context.Context) {
 	// response
-	log.Infof("Is ctx stopped: %v", ctx.IsStopped())
-	log.Debugf("Controller.GetHello() reqID: %v GID: %v ctx: %p - %p", id, gotest.GetGID(), ctx, ctx.(*web.Context).Context)
+	log.Debugf("Controller.GetHello() id: %v GID: %v ctx: %p - %p", id, gotest.GetGID(), ctx, ctx.(*web.Context).Context)
 
 	ctx.JSON(struct{Message string}{Message: "Hello world!"})
 }
