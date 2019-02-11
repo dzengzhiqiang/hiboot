@@ -22,6 +22,7 @@ import (
 	"hidevops.io/hiboot/pkg/factory"
 	"hidevops.io/hiboot/pkg/log"
 	"hidevops.io/hiboot/pkg/model"
+	"hidevops.io/hiboot/pkg/utils/gotest"
 	"hidevops.io/hiboot/pkg/utils/reflector"
 	"hidevops.io/hiboot/pkg/utils/replacer"
 	"hidevops.io/hiboot/pkg/utils/str"
@@ -213,6 +214,8 @@ func (h *handler) parse(method reflect.Method, object interface{}, path string) 
 }
 
 func (h *handler) responseData(ctx context.Context, numOut int, results []reflect.Value) (err error) {
+	log.Debugf("responseData() GID: %v ctx: %p - %p", gotest.GetGID(), ctx, ctx.(*Context).Context)
+
 	if numOut == 0 {
 		ctx.StatusCode(http.StatusOK)
 		return

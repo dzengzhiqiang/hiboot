@@ -37,3 +37,7 @@ func TestParseArgs(t *testing.T) {
 	ParseArgs(args)
 	log.Debug(flag.Args())
 }
+
+func TestGetGID(t *testing.T) {
+	log.Debugf("Current GID: %v", GetGID())
+}

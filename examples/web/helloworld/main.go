@@ -19,7 +19,10 @@ package main
 // import web starter from hiboot
 import (
 	"hidevops.io/hiboot/pkg/app/web"
+	"hidevops.io/hiboot/pkg/app/web/context"
 	"hidevops.io/hiboot/pkg/at"
+	"hidevops.io/hiboot/pkg/log"
+	"hidevops.io/hiboot/pkg/utils/gotest"
 )
 
 // Controller Rest Controller with path /
@@ -30,9 +33,20 @@ type Controller struct {
 }
 
 // Get GET /
-func (c *Controller) Get() string {
+func (c *Controller) Get(ctx context.Context) string {
 	// response
+	log.Debugf("Controller.Get() GID: %v ctx: %p", gotest.GetGID(), ctx)
 	return "Hello world"
+}
+
+
+// Get GET /
+func (c *Controller) GetById(id int, ctx context.Context) {
+	// response
+	log.Infof("Is ctx stopped: %v", ctx.IsStopped())
+	log.Debugf("Controller.GetHello() reqID: %v GID: %v ctx: %p - %p", id, gotest.GetGID(), ctx, ctx.(*web.Context).Context)
+
+	ctx.JSON(struct{Message string}{Message: "Hello world!"})
 }
 
 // main function
